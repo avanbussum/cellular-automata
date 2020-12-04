@@ -1,24 +1,141 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useCallback, useRef} from 'react'
+import Produce from 'immer';
 
-function App() {
+const numRows = 60;
+const numCols = 60;
+
+const neighborCoordinates = [
+  [0, 1],
+  [0, -1],
+  [1, 1],
+  [1, -1],
+  [-1, 0],
+  [-1, 1],
+  [-1, -1],
+  [1, 0]
+]
+
+const resetGrid = () => {
+  const rows = [];
+  for (let i=0; i < numRows; i++) {
+    rows.push(Array.from(Array(numCols), () => 0))
+  }
+  
+  return rows;
+    
+}
+
+export const App = () => {
+  const [grid, setGrid] = useState(() => {
+    return resetGrid()
+  });
+
+  const [running, setRunning] = useState(false)
+
+  const runningRef = useRef(running);
+  runningRef.current = running
+  
+  const runSimulation = useCallback(() => {
+    if (!runningRef.current) {
+      return;
+    }
+    setGrid((grid) => {
+      return Produce(grid, gridCopy => {
+        for (let x = 0; x < numRows; x++) {
+          for (let y = 0; y < numCols; y++) {
+            let neighbors = 0;
+            neighborCoordinates.forEach(([a,b]) => {
+              const newX = x + a;
+              const newY = y + b;
+              if (newX >= 0 && newX < numRows && newY >= 0 && newY < numCols) {
+                neighbors += grid[newX][newY]
+              }
+            })
+            // "game of life - rules"
+            if (neighbors < 2 || neighbors > 3) {
+              gridCopy[x][y] = 0;
+            } else if (grid[x][y] === 0 && neighbors === 3) {
+              gridCopy[x][y] = 1; 
+            }
+
+            // "seeds"
+            // if (grid[x][y] === 1 && neighbors === 2) {
+            //   gridCopy[x][y] = 1; 
+            // } else if (grid[x][y] === 0 && neighbors === 2) {
+            //   gridCopy [x][y] = 1;
+            // } else {
+            //   gridCopy[x][y] = 0;
+            // }
+
+            // "wireworld"
+
+          }
+        }
+      });
+    });
+
+
+    setTimeout(runSimulation, 300);
+  }, []);
+
+  
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <button
+        onClick={() => {
+          setRunning(!running);
+          if (!running) {
+            runningRef.current = true;
+            runSimulation();
+          }
+        }}
+      >
+        {running ? 'Stop' : 'Start'}
+      </button>
+      <button onClick={() => setGrid(resetGrid())}>Clear</button>
+      <button
+        onClick={() => {
+          const rows = [];
+          for (let i = 0; i < numRows; i++) {
+            rows.push(
+              Array.from(Array(numCols), () => (Math.random() < 0.2 ? 1 : 0))
+            );
+          }
+          setGrid(rows);
+        }}
+      >
+        Randomize
+      </button>
+
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(${numCols}, 10px)`,
+        }}
+      >
+        {grid.map((rows, x) =>
+          rows.map((col, y) => (
+            <div
+              onClick={() => {
+                const newGrid = Produce(grid, (gridCopy) => {
+                  gridCopy[x][y] = grid[x][y] ? 0 : 1;
+                });
+                setGrid(newGrid);
+              }}
+              key={`${x}-${y}`}
+              style={{
+                width: 10,
+                height: 10,
+                backgroundColor: grid[x][y] ? 'red' : undefined,
+                border: 'solid 1px black',
+              }}
+            />
+          ))
+        )}
+      </div>
+    </>
   );
 }
 
