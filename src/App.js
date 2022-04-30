@@ -1,8 +1,10 @@
 import React, {useState, useCallback, useRef} from 'react'
 import Produce from 'immer';
 
-const numRows = 60;
-const numCols = 60;
+const numRows = 20;
+const numCols = 20;
+
+const rock = {alive: 1, color: "red"};
 
 const neighborCoordinates = [
   [0, 1],
@@ -20,9 +22,7 @@ const resetGrid = () => {
   for (let i=0; i < numRows; i++) {
     rows.push(Array.from(Array(numCols), () => 0))
   }
-  
   return rows;
-    
 }
 
 export const App = () => {
@@ -51,21 +51,22 @@ export const App = () => {
                 neighbors += grid[newX][newY]
               }
             })
+
             // "game of life - rules"
-            if (neighbors < 2 || neighbors > 3) {
-              gridCopy[x][y] = 0;
-            } else if (grid[x][y] === 0 && neighbors === 3) {
-              gridCopy[x][y] = 1; 
-            }
+            // if (neighbors < 2 || neighbors > 3) {
+            //   gridCopy[x][y] = 0;
+            // } else if (grid[x][y] === 0 && neighbors === 3) {
+            //   gridCopy[x][y] = 1; 
+            // }
 
             // "seeds"
-            // if (grid[x][y] === 1 && neighbors === 2) {
-            //   gridCopy[x][y] = 1; 
-            // } else if (grid[x][y] === 0 && neighbors === 2) {
-            //   gridCopy [x][y] = 1;
-            // } else {
-            //   gridCopy[x][y] = 0;
-            // }
+            if (grid[x][y] === 1 && neighbors === 2) {
+              gridCopy[x][y] = 1; 
+            } else if (grid[x][y] === 0 && neighbors === 2) {
+              gridCopy [x][y] = 1;
+            } else {
+              gridCopy[x][y] = 0;
+            }
 
             // "wireworld"
 
@@ -75,7 +76,7 @@ export const App = () => {
     });
 
 
-    setTimeout(runSimulation, 300);
+    setTimeout(runSimulation, 100);
   }, []);
 
   
@@ -100,7 +101,7 @@ export const App = () => {
           const rows = [];
           for (let i = 0; i < numRows; i++) {
             rows.push(
-              Array.from(Array(numCols), () => (Math.random() < 0.2 ? 1 : 0))
+              Array.from(Array(numCols), () => (Math.random() < 0.5 ? 1 : 0))
             );
           }
           setGrid(rows);
@@ -113,6 +114,9 @@ export const App = () => {
         style={{
           display: 'grid',
           gridTemplateColumns: `repeat(${numCols}, 10px)`,
+          rowGap: '5px',
+          columnGap:'15px',
+          justifyContent: 'center',
         }}
       >
         {grid.map((rows, x) =>
@@ -126,10 +130,10 @@ export const App = () => {
               }}
               key={`${x}-${y}`}
               style={{
-                width: 10,
-                height: 10,
-                backgroundColor: grid[x][y] ? 'red' : undefined,
-                border: 'solid 1px black',
+                width: 15,
+                height: 15,
+                backgroundColor: grid[x][y] ? 'purple' : 'gray',
+                border: 'solid 2px black',
               }}
             />
           ))
