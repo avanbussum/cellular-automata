@@ -209,12 +209,7 @@ export const App = () => {
         Randomize
       </button>
       </div>
-      <p style={{
-          display: 'flex',
-          justifyContent: 'center',
-          marginTop: '20px',
-          gap:'10px'
-        }}>Rock = Blue | Paper = Green | Scissors = Red</p>
+
       <div
         style={{
           display: 'grid',

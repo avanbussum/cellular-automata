@@ -138,83 +138,16 @@ export const App = () => {
 
   return (
     <>
-    <p style={{
-          display: 'flex',
-          justifyContent: 'center',
-          marginTop: '20px',
-          gap:'10px'
-        }}>First click start, then randomize - until a pattern develops</p>
+    <p>First click start, then randomize until a pattern works</p>
     <div style={{
           display: 'flex',
-          justifyContent: 'center',
+          justifyContent: 'between',
           marginTop: '15px',
-          gap:'10px'
         }}>
-          <button
-          style={{
-          height: '40px',
-        }}
-        onClick={() => {
-          setRunning(!running);
-          if (!running) {
-            runningRef.current = true;
-            runSimulation();
-          }
-        }}
-      >
-        {running ? 'Stop' : 'Start'}
-      </button>
-      <button onClick={() => setGrid(resetGrid())}>Clear</button>
-      <button
-        onClick={() => {
-          const rows = [];
 
-          for (let i = 0; i < numRows; i++) {
-            rows.push(
-              Array.from(Array(numCols), () => {
-                const cell = { alive: 0, type: '', color: 'purple' };
-                let prob = 0.4;
-                if (rps === true) prob = 1
-                if (Math.random() < prob) {
-                  cell.alive = 1;
-                }
-                else {
-                  cell.alive = 0;
-                }
 
-                if (rps === true) {
-                  if (Math.random() < 1 / 3) {
-                    cell.type = 'rock';
-                    cell.color = 'blue'
-                  }
-                  else if (Math.random() > 2 / 3) {
-                    cell.type = 'paper';
-                    cell.color = 'green'
-
-                  }
-                  else {
-                    cell.type = 'scissors';
-                    cell.color = 'red'
-                  }
-                }
-
-                return cell;
-              })
-            );
-          }
-          console.log(rows)
-          setGrid(rows);
-        }}
-      >
-        Randomize
-      </button>
       </div>
-      <p style={{
-          display: 'flex',
-          justifyContent: 'center',
-          marginTop: '20px',
-          gap:'10px'
-        }}>Rock = Blue | Paper = Green | Scissors = Red</p>
+
       <div
         style={{
           display: 'grid',

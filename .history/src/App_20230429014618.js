@@ -209,12 +209,12 @@ export const App = () => {
         Randomize
       </button>
       </div>
-      <p style={{
+      p style={{
           display: 'flex',
           justifyContent: 'center',
           marginTop: '20px',
           gap:'10px'
-        }}>Rock = Blue | Paper = Green | Scissors = Red</p>
+        }}>First click start, then randomize - until a pattern develops</p>
       <div
         style={{
           display: 'grid',

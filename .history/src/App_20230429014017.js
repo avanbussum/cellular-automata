@@ -138,22 +138,13 @@ export const App = () => {
 
   return (
     <>
-    <p style={{
-          display: 'flex',
-          justifyContent: 'center',
-          marginTop: '20px',
-          gap:'10px'
-        }}>First click start, then randomize - until a pattern develops</p>
+    <p>First click start, then randomize until a pattern works</p>
     <div style={{
           display: 'flex',
-          justifyContent: 'center',
+          justifyContent: 'between',
           marginTop: '15px',
-          gap:'10px'
         }}>
           <button
-          style={{
-          height: '40px',
-        }}
         onClick={() => {
           setRunning(!running);
           if (!running) {
@@ -209,12 +200,7 @@ export const App = () => {
         Randomize
       </button>
       </div>
-      <p style={{
-          display: 'flex',
-          justifyContent: 'center',
-          marginTop: '20px',
-          gap:'10px'
-        }}>Rock = Blue | Paper = Green | Scissors = Red</p>
+
       <div
         style={{
           display: 'grid',

@@ -214,7 +214,7 @@ export const App = () => {
           justifyContent: 'center',
           marginTop: '20px',
           gap:'10px'
-        }}>Rock = Blue | Paper = Green | Scissors = Red</p>
+        }}>First click start, then randomize - until a pattern develops</p>
       <div
         style={{
           display: 'grid',

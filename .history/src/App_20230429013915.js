@@ -138,22 +138,16 @@ export const App = () => {
 
   return (
     <>
-    <p style={{
-          display: 'flex',
-          justifyContent: 'center',
-          marginTop: '20px',
-          gap:'10px'
-        }}>First click start, then randomize - until a pattern develops</p>
-    <div style={{
-          display: 'flex',
+    <p>First click start, then randomize until a pattern works</p>
+    style={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(${numCols}, 10px)`,
+          rowGap: '5px',
+          columnGap: '15px',
           justifyContent: 'center',
           marginTop: '15px',
-          gap:'10px'
-        }}>
-          <button
-          style={{
-          height: '40px',
         }}
+      <button
         onClick={() => {
           setRunning(!running);
           if (!running) {
@@ -208,13 +202,7 @@ export const App = () => {
       >
         Randomize
       </button>
-      </div>
-      <p style={{
-          display: 'flex',
-          justifyContent: 'center',
-          marginTop: '20px',
-          gap:'10px'
-        }}>Rock = Blue | Paper = Green | Scissors = Red</p>
+
       <div
         style={{
           display: 'grid',
